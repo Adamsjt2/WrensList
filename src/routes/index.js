@@ -28,26 +28,39 @@ router.post('/list', function(req, res, next) {
 
 });
 
-router.put('/list/:listId', function(req, res, next) {
-    const {listId} = req.params;
-    const list = LIST.find(entry => entry.id === listId);
-    if (!list) {
-        return res.status(404).end(`Could not find list '${listId}'`);
-    }
+router.put('/list/:itemId', function(req, res, next) {
+    const itemId = req.params.itemId;
 
-    list.description = req.body.description;
-    list.feeling = req.body.feeling;
-    res.json(list);
+    item.findById(itemId, function(err, item) {
+        if (err) {
+            console.error(err);
+            return res.status(500).json(err);
+        }
+        if (!item) {
+            return res.status(404).json({message: "couldn't find the item"});
+        }
+
+        item.description = req.body.description;
+        item.feeling = req.body.feeling;
+        
+        item.save(function(err, saveditem) {
+            if (err) {
+                console.error(err);
+                return res.status(500).json(err);
+            }
+            res.json(saveditem);
+        })
+    })
 });
   
 router.delete('/list/:listId', function(req, res, next) {
     res.end(`Deleting a list item '${req.params.listId}'`);
 });
   
-router.get('/list/:listId', function(req, res, next) {
-    const {listId} = req.params;
+router.get('/list/:itemId', function(req, res, next) {
+    const {itemId} = req.params;
 
-    const list = LIST.find(entry => entry.id === listId);
+    const list = LIST.find(entry => entry.id === itemId);
     if (!list) {
         return res.status(404).end(`Could not find the list item '${listId}'`);
     }
