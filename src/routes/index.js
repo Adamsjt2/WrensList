@@ -1,9 +1,9 @@
 const router = require('express').Router();
-let list = require('../models/item.model.js')
+let item = require('../models/item.model.js')
 
 
 router.get('/item', function(req, res, next) {
-    list.find({deleted: {$ne: true}}, function(err, lists) {
+    item.find({deleted: {$ne: true}}, function(err, lists) {
         if (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -28,7 +28,7 @@ router.post('/item', function(req, res, next) {
         description: req.body.description,
         feeling: req.body.feeling,
     };
-    list.create(listData, function(err, newListItem) {
+    item.create(listData, function(err, newListItem) {
         if (err) {
             console.error(err);
             return res.status(500).json(err);
@@ -41,6 +41,7 @@ router.post('/item', function(req, res, next) {
 
 router.put('/item/:itemId', function(req, res, next) {
     const itemId = req.params.itemId;
+    console.log(itemId)
 
     item.findById(itemId, function(err, item) {
         if (err) {
@@ -82,16 +83,6 @@ router.delete('/item/:itemId', function(req, res, next) {
             res.json(deletedItem)
         })
     })
-});
-  
-router.get('/item/:itemId', function(req, res, next) {
-    const {itemId} = req.params;
-
-    const list = LIST.find(entry => entry.id === itemId);
-    if (!list) {
-        return res.status(404).end(`Could not find the list item '${listId}'`);
-    }
-    res.json(list);
 });
   
 module.exports = router;

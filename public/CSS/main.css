@@ -1,0 +1,29 @@
+.hate {
+    color: white;
+    background: rgb(53, 53, 53);
+}
+
+.dislike {
+    color: white;
+    background: rgb(70, 70, 58);
+}
+
+.neutral {
+    color: white;
+    background: rgb(119, 119, 62)
+}
+
+.like {
+    color: black;
+    background: rgb(173, 173, 36)
+}
+
+.love {
+    color: black;
+    background: yellow;
+}
+
+.row {
+    padding: 1em;
+    border: 10px;
+}

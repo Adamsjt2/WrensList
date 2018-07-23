@@ -2,7 +2,7 @@ function listItemTemplate(data) {
     var compiled = '';
     data.forEach(item => {
         compiled += `
-        <div class="row">
+        <div class="row ${item.feeling}">
             <div class="col-xs-5">${item.description}</div>
             <div class="col-xs-5"><strong>${item.feeling}</strong></div>
             <span class="col-xs-2">
@@ -33,13 +33,14 @@ function refreshWrensList() {
         .then(list => {
             window.itemList = list;
             $('#list-container').html(listItemTemplate(list));
-        })
-}
+        });
+    addingFeelingclass();
+};
 
 function submitListItemForm() {
     const itemData = {
         description: $('#description').val(), 
-        feeling:  $('#feeling').val(),
+        feeling:  $('input.feeling:checked').val(),
         _id: $('#item-id').val()
     };
 
@@ -122,7 +123,7 @@ function handleDeleteListItemClick(element) {
 
 function deleteItem(itemId) {
     const url = '/api/item/' + itemId;
-
+    console.log(url)
     fetch(url, {
         method: 'DELETE',
         headers: {'Content-Type' : 'application/json'}

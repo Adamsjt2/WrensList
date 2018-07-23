@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Wren's Little List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"  href="CSS/main.css" />
   </head>
   <body>
     <h1>Wren's Little List</h1>
@@ -16,11 +17,32 @@
         <input type="hidden" id="item-id" value="" />
         <div class="form-group">
           <label for="description">Description of the thing Wren has feelings about</label>
-          <input type="text" class="form-control" id="description" placeholder="The thing!">
+          <input type="text" class="form-control" id="description" placeholder="The Thing!" required="required">
         </div>
-        <div class="form-group">
-            <label for="feeling">Her Feeling</label>
-            <input type="text" class="form-control" id="feeling" placeholder="How Wren feels about the Thing!">
+        <div id="feelingcheckboxes">
+          <label class="">How Wren Feels about the Thing!</label>
+          <div class="form-check">
+            <input class="form-check-input feeling" type="radio" name="feeling" id="hate" value="hate">
+            <label class="form-check-label" for="hate">
+              hate
+            </label>
+            <input class="form-check-input feeling" type="radio" name="feeling" id="dislike" value="dislike">
+            <label class="form-check-label" for="dislike">
+              dislike
+            </label>
+            <input class="form-check-input feeling" type="radio" name="feeling" id="neutral" value="neutral">
+            <label class="form-check-label" for="neutral">
+              neutral
+            </label>
+            <input class="form-check-input feeling" type="radio" name="feeling" id="like" value="like">
+            <label class="form-check-label" for="like">
+              like
+            </label>
+            <input class="form-check-input feeling" type="radio" name="feeling" id="love" value="love">
+            <label class="form-check-label" for="love">
+              love
+            </label>
+          </div>
         </div>
         <button type="button" onclick="submitListItemForm()" class="btn btn-success">Submit</button>
         <button type="button" onclick="cancelAddListItemForm()" class="btn btn-link">cancel</button>
