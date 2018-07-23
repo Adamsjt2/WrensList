@@ -1,9 +1,9 @@
 const router = require('express').Router();
-let list = require('../models/list.model.js')
+let list = require('../models/item.model.js')
 
 
-router.get('/list', function(req, res, next) {
-    list.find({}, function(err, lists) {
+router.get('/item', function(req, res, next) {
+    list.find({deleted: {$ne: true}}, function(err, lists) {
         if (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -11,8 +11,19 @@ router.get('/list', function(req, res, next) {
         res.json(lists);
     });
 });
+
+router.get('/item/:itemId', function (req, res, next) {
+    const itemId = req.params.itemId
+
+    item.findById(itemId, function (err, item) {
+        if (err) {
+            return res.status(500).json(err)
+        }
+        res.json(item)
+    })
+})
   
-router.post('/list', function(req, res, next) {
+router.post('/item', function(req, res, next) {
     const listData = {
         description: req.body.description,
         feeling: req.body.feeling,
@@ -28,7 +39,7 @@ router.post('/list', function(req, res, next) {
 
 });
 
-router.put('/list/:itemId', function(req, res, next) {
+router.put('/item/:itemId', function(req, res, next) {
     const itemId = req.params.itemId;
 
     item.findById(itemId, function(err, item) {
@@ -53,11 +64,27 @@ router.put('/list/:itemId', function(req, res, next) {
     })
 });
   
-router.delete('/list/:listId', function(req, res, next) {
-    res.end(`Deleting a list item '${req.params.listId}'`);
+router.delete('/item/:itemId', function(req, res, next) {
+    const itemId = req.params.itemId
+
+    item.findById(itemId, function (err, item) {
+        if (err) {
+            console.log(err)
+            return res.status(500).json(err)
+        }
+        if (!item) {
+            return res.status(404).json({message: 'Item not found'})
+        }
+
+        item.deleted = true
+
+        item.save(function (err, deletedItem) {
+            res.json(deletedItem)
+        })
+    })
 });
   
-router.get('/list/:itemId', function(req, res, next) {
+router.get('/item/:itemId', function(req, res, next) {
     const {itemId} = req.params;
 
     const list = LIST.find(entry => entry.id === itemId);

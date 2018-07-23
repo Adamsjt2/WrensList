@@ -7,6 +7,7 @@ function listItemTemplate(data) {
             <div class="col-xs-5"><strong>${item.feeling}</strong></div>
             <span class="col-xs-2">
             <button type="button" class="btn btn-xs btn-default" onclick="handleEditListItemClick(this)" data-listitem-id="${item._id}">Edit</button>
+            <button type="button" class="btn btn-xs btn-danger" onclick="handleDeleteListItemClick(this)" data-listitem-id="${item._id}">Delete</button>
             </span>    
         </div>
         
@@ -16,7 +17,7 @@ function listItemTemplate(data) {
 }
 
 function getList() {
-    return $.ajax('/api/list')
+    return $.ajax('/api/item')
       .then(res => {
         console.log("Results from getList()", res);
         return res;
@@ -36,30 +37,31 @@ function refreshWrensList() {
 }
 
 function submitListItemForm() {
-    const listData = {
+    const itemData = {
         description: $('#description').val(), 
         feeling:  $('#feeling').val(),
+        _id: $('#item-id').val()
     };
 
-    let method, url
-    if (listData._id) {
-        method = 'PUT'
-        url = '/api/list/' + listData._id
+    let method, url;
+    if (itemData._id) {
+        method = 'PUT';
+        url = '/api/item/' + itemData._id;
     } else {
-        method = 'POST'
-        url = '/api/list'
-    }
+        method = 'POST';
+        url = '/api/item';
+    };
 
     fetch(url, {
         method: method,
-        body: JSON.stringify(listData),
+        body: JSON.stringify(itemData),
         headers: {
             'Content-type': 'application/json'
         }
     })
     .then(response => response.json())
-    .then(list => {
-        console.log("My new list Item!", list);
+    .then(item => {
+        console.log("Wren's list has been updated", item);
         cancelAddListItemForm();
         refreshWrensList();
     })
@@ -82,9 +84,9 @@ function hideAddListItemForm(){
 }
 
 function handleEditListItemClick(element) {
-    const listitemId = element.getAttribute('data-listitem-id')
+    const itemId = element.getAttribute('data-listitem-id')
     
-    const item = window.itemList.find(item => item._id === listitemId)
+    const item = window.itemList.find(item => item._id === itemId)
     if (item) {
        setForm(item);
     } 
@@ -108,4 +110,29 @@ function setForm(data) {
         } else {
             $('#form-label').text("Adding to the List!")
         }
+}
+
+function handleDeleteListItemClick(element) {
+    const itemId = element.getAttribute('data-listitem-id')
+
+    if (confirm("Are you sure you wish to delete this item?")) {
+        deleteItem(itemId);
+    }
+}
+
+function deleteItem(itemId) {
+    const url = '/api/item/' + itemId;
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {'Content-Type' : 'application/json'}
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log("You've been deleted");
+            refreshWrensList();
+        })
+        .catch(err => {
+            console.error("Deletion Failed", err);
+        });
 }
