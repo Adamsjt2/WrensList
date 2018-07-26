@@ -23,7 +23,56 @@
     background: yellow;
 }
 
+.cnclbtn {
+    color: black;
+    font-weight: bolder;
+}
+
 .row {
     padding: 1em;
     border: 10px;
+}
+
+#headerImg {
+    max-height: 300px;
+    max-width: 300px;
+    margin-left: 50px;
+}
+
+body {
+    background-image: url(../images/starrySky.jpg)
+}
+
+.topBanner {
+    color: yellow;
+}
+
+.addEditHeading {
+    color: yellow;
+    padding-top: 20px;
+}
+
+.addListItem:hover {
+    cursor: pointer;
+}
+
+.myForm {
+    background-image: url(../images/starrySky.jpg);
+    color: whitesmoke;
+    text-align: center;
+}
+
+#description {
+    text-align: center;
+    width: 30em;
+    display: block;
+    margin: 0 auto;
+}
+
+.formitem {
+    font-weight: 900;
+}
+
+.formHeaders {
+    font-weight: bolder;
 }

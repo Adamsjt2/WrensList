@@ -1,3 +1,5 @@
+//sets up the Schema for the database items
+
 const mongoose = require('mongoose');
 
 const listitemSchema = new mongoose.Schema({

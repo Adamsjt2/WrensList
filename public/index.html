@@ -5,22 +5,31 @@
     <title>Wren's Little List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"  href="CSS/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-    <h1>Wren's Little List</h1>
+    <header class="container">
+      <div class="row">
+        <img id="headerImg" class="img-fluid col-3" src="images/newborn.jpeg" alt="Wren when she was first born">
+        <img id="headerImg" class="img-fluid col-3" src="images/6month.jpeg" alt="Wren when she was first born">
+        <img id="headerImg" class="img-fluid col-3" src="images/1year.jpeg" alt="Wren when she was first born">
+        <img id="headerImg" class="img-fluid col-3" src="images/21months.jpeg" alt="Wren when she was first born">
+      </div>
+    </header>
+    <h1 class="topBanner">Wren's Little List</h1>
     <div id="list-container"></div>
-    <div><legend>Add to the list? <span id="add-item-button" class="glyphicon glyphicon-align-left glyphicon-plus-sign" aria-hidden="true" ></span></legend></div>
+    <div class="addListItem"><legend class="addEditHeading">Add to the list? <span id="add-item-button" class="glyphicon glyphicon-align-left glyphicon-plus-sign" aria-hidden="true" ></span></legend></div>
     <div id="form-container" class="panel">
-      <form id="add-listitem-form" style="display: none;">
-        <legend>How Does Wren Feels about the World?</legend>
-        <legend id="form-label"></legend>
+      <form class="myForm" id="add-listitem-form" style="display: none;">
+        <legend class="formHeaders">How Does Wren Feels about the World?</legend>
+        <legend class="formHeaders" id="form-label"></legend>
         <input type="hidden" id="item-id" value="" />
         <div class="form-group">
           <label for="description">Description of the thing Wren has feelings about</label>
-          <input type="text" class="form-control" id="description" placeholder="The Thing!" required="required">
+          <input type="text" class="form-control" id="description" placeholder="The Thing!">
         </div>
         <div id="feelingcheckboxes">
-          <label class="">How Wren Feels about the Thing!</label>
+          <label>How Wren Feels about the Thing!</label>
           <div class="form-check">
             <input class="form-check-input feeling" type="radio" name="feeling" id="hate" value="hate">
             <label class="form-check-label" for="hate">
@@ -45,16 +54,19 @@
           </div>
         </div>
         <button type="button" onclick="submitListItemForm()" class="btn btn-success">Submit</button>
-        <button type="button" onclick="cancelAddListItemForm()" class="btn btn-link">cancel</button>
+        <button type="button" onclick="cancelAddListItemForm()" class="btn btn-link cnclbtn">cancel</button>
       </form>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-      // our jquery template string
+      //jquery template string
       $(document).ready(function() {
-        $('#add-item-button').on('click', () => {
-        showAddListItemForm();
+        $('.addEditHeading').on('click', () => {
+          if ($('#add-listitem-form').is(':hidden')) {
+            showAddListItemForm();
+          } else {
+            cancelAddListItemForm();
+          }
+        
         });
         refreshWrensList();
         setForm();

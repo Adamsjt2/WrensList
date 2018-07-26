@@ -22,7 +22,8 @@ router.get('/item/:itemId', function (req, res, next) {
         res.json(item)
     })
 })
-  
+
+//route for adding a new item to the database
 router.post('/item', function(req, res, next) {
     const listData = {
         description: req.body.description,
@@ -39,9 +40,9 @@ router.post('/item', function(req, res, next) {
 
 });
 
+//route for updating an item in the database
 router.put('/item/:itemId', function(req, res, next) {
     const itemId = req.params.itemId;
-    console.log(itemId)
 
     item.findById(itemId, function(err, item) {
         if (err) {
@@ -64,7 +65,9 @@ router.put('/item/:itemId', function(req, res, next) {
         })
     })
 });
-  
+
+
+//route for marking an item in the data base as being deleted: true
 router.delete('/item/:itemId', function(req, res, next) {
     const itemId = req.params.itemId
 

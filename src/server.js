@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const config = require('./config');
 
+//connection to the database
 mongoose.connection.openUri(`mongodb://${config.db.username}:${config.db.password}@${config.db.host}/${config.db.dbName}`);
 
 const app = express();

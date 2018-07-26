@@ -1,4 +1,3 @@
-// src/config/index.js
 
 module.exports = {
   appName: 'Wrens Little List',

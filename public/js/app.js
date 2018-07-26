@@ -1,10 +1,11 @@
+//puts together each item in the list
 function listItemTemplate(data) {
     var compiled = '';
     data.forEach(item => {
         compiled += `
         <div class="row ${item.feeling}">
-            <div class="col-xs-5">${item.description}</div>
-            <div class="col-xs-5"><strong>${item.feeling}</strong></div>
+            <div class="col-xs-5 formitem">${item.description}</div>
+            <div class="col-xs-5 formitem" id="feeling">${item.feeling}</div>
             <span class="col-xs-2">
             <button type="button" class="btn btn-xs btn-default" onclick="handleEditListItemClick(this)" data-listitem-id="${item._id}">Edit</button>
             <button type="button" class="btn btn-xs btn-danger" onclick="handleDeleteListItemClick(this)" data-listitem-id="${item._id}">Delete</button>
@@ -28,15 +29,16 @@ function getList() {
       });
 }
 
+//refreshes the list with the latest database data
 function refreshWrensList() {
     getList()
         .then(list => {
             window.itemList = list;
             $('#list-container').html(listItemTemplate(list));
         });
-    addingFeelingclass();
 };
 
+//decides if when the submit button is pushed if it's a PUT or POST request and then refreshes the list with updates
 function submitListItemForm() {
     const itemData = {
         description: $('#description').val(), 
@@ -94,23 +96,24 @@ function handleEditListItemClick(element) {
     showAddListItemForm();
 }
 
+//clears the form if there is no item id or if there is an item id, fills the form with the item's description and feeling
 function setForm(data) {
     data = data || {};
 
     const item = {
         description: data.description || '',
-        feeling: data.feeling || '',
+        feeling: data.feeling || $("input[name='feeling']").prop('checked', false),
         _id: data._id || '',
     };
         $('#description').val(item.description);
-        $('#feeling').val(item.feeling);
+        $("input.feeling[value='"+item.feeling+"']").prop('checked', true).val(item.feeling)
         $('#item-id').val(item._id)
-
         if(item._id) {
             $('#form-label').text("Editing!")
         } else {
             $('#form-label').text("Adding to the List!")
         }
+        
 }
 
 function handleDeleteListItemClick(element) {
@@ -121,9 +124,9 @@ function handleDeleteListItemClick(element) {
     }
 }
 
+//function that runs the delete route
 function deleteItem(itemId) {
     const url = '/api/item/' + itemId;
-    console.log(url)
     fetch(url, {
         method: 'DELETE',
         headers: {'Content-Type' : 'application/json'}
