@@ -1,7 +1,7 @@
 const router = require('express').Router();
 let item = require('../models/item.model.js')
 
-
+//route that returns all the items in the database that aren't marked as deleted
 router.get('/item', function(req, res, next) {
     item.find({deleted: {$ne: true}}, function(err, lists) {
         if (err) {
@@ -12,6 +12,7 @@ router.get('/item', function(req, res, next) {
     });
 });
 
+//route that will return an item based on it's Id
 router.get('/item/:itemId', function (req, res, next) {
     const itemId = req.params.itemId
 
@@ -40,7 +41,7 @@ router.post('/item', function(req, res, next) {
 
 });
 
-//route for updating an item in the database
+//route for updating an item based on it's Id in the database
 router.put('/item/:itemId', function(req, res, next) {
     const itemId = req.params.itemId;
 

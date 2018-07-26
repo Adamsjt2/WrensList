@@ -1,4 +1,4 @@
-//puts together each item in the list
+//concatenates each item
 function listItemTemplate(data) {
     var compiled = '';
     data.forEach(item => {
@@ -38,7 +38,7 @@ function refreshWrensList() {
         });
 };
 
-//decides if when the submit button is pushed if it's a PUT or POST request and then refreshes the list with updates
+//decides if when the submit button is clicked if it's a PUT or POST request and then refreshes the list with updates
 function submitListItemForm() {
     const itemData = {
         description: $('#description').val(), 
@@ -86,6 +86,7 @@ function hideAddListItemForm(){
     $('#add-listitem-form').hide();
 }
 
+//when the edit button is clicked this fucntion will populate the form with the values of the item the edit was clicked on
 function handleEditListItemClick(element) {
     const itemId = element.getAttribute('data-listitem-id')
     
